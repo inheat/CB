@@ -1200,7 +1200,7 @@ def getmd5(t):
 
 def CheckUpdate(msg): #200
 	try:
-		uversao = urllib2.urlopen( "https://raw.githubusercontent.com/RH1CK/CubePlay/master/version.txt" ).read().replace('\n','').replace('\r','')
+		uversao = urllib2.urlopen( "https://raw.githubusercontent.com/D4anielCB/CB/master/version.txt" ).read().replace('\n','').replace('\r','')
 		uversao = re.compile('[a-zA-Z\.\d]+').findall(uversao)[0]
 		#xbmcgui.Dialog().ok(Versao, uversao)
 		if uversao != Versao:
