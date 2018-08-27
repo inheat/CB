@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import urllib, urlparse, sys, xbmcplugin ,xbmcgui, xbmcaddon, xbmc, os, json, hashlib, re, urllib2, htmlentitydefs
 
-Versao = "18.08.25"
+Versao = "18.08.27"
 
 AddonID = 'plugin.video.CubePlay'
 Addon = xbmcaddon.Addon(AddonID)
@@ -199,9 +199,16 @@ def PlayS(): #62
 		listal=[]
 		for url2 in m:
 			link3 = common.OpenURL(url2)
-			m3 = re.compile("iframe src\=\"([^\"]+)").findall(link3)
+			m3 = re.compile("(campanha\d?).php?([^\"]+)").findall(link3)
 			if m3:
-					link4 = common.OpenURL(m3[0])
+				for url3 in m3:
+					if url3[0] == "campanha":
+						cp = "desktop22"
+					elif url3[0] == "campanha2":
+						cp = "desktop20"
+					else:
+						cp = "desktopnovo"
+					link4 = common.OpenURL("http://p.netcine.us/players/"+cp+".php"+url3[1])
 					link4 = re.sub('window.location.+', '', link4)
 					m4= re.compile("http.+?mp4[^\"]+").findall(link4) 
 					m4 = list(reversed(m4))
@@ -212,6 +219,7 @@ def PlayS(): #62
 			else:
 					m4= re.compile("http\:\/\/.+[ALTO|BAIXO].mp4[^\"]+").findall(link3)
 					m4 = list(reversed(m4))
+					ST(link3)
 					for url4 in m4:
 						listal.append(url4)
 						dubleg="[COLOR green]HD[/COLOR][/B]" if "ALTO" in url4 else "[COLOR red]SD[/COLOR][/B]"
@@ -266,11 +274,10 @@ def PlayMNC(): #79
 		link = common.OpenURL(url)
 		m = re.compile("http.+netcine[^\"]+").findall(link)
 		link1 = common.OpenURL(m[0])
-		link1 = re.sub('window.location.+', '', link1)
 		m1 = re.compile("http.+netcine[^\"]+").findall(link1)
-		#link2 = common.OpenURL(m1[1])
-		#link2 = re.sub('window.location.+', '', link2)
-		m2 = re.compile("http.+?mp4[^\"]+").findall(link1)
+		link2 = common.OpenURL(m1[1])
+		link2 = re.sub('window.location.+', '', link2)
+		m2 = re.compile("http.+?mp4[^\"]+").findall(link2)
 		if m2:
 			m2 = list(reversed(m2))
 			lista =[]
