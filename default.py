@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import urllib, urlparse, sys, xbmcplugin ,xbmcgui, xbmcaddon, xbmc, os, json, hashlib, re, urllib2, htmlentitydefs
 
-Versao = "18.08.27"
+Versao = "18.09.13"
 
 AddonID = 'plugin.video.CubePlay'
 Addon = xbmcaddon.Addon(AddonID)
@@ -199,13 +199,15 @@ def PlayS(): #62
 		listal=[]
 		for url2 in m:
 			link3 = common.OpenURL(url2)
-			m3 = re.compile("(campanha\d?).php?([^\"]+)").findall(link3)
+			m3 = re.compile("(campanha.{0,2}).php(\?[^\"]+)").findall(link3)
 			if m3:
 				for url3 in m3:
 					if url3[0] == "campanha":
 						cp = "desktop22"
 					elif url3[0] == "campanha2":
 						cp = "desktop20"
+					elif url3[0] == "campanha29":
+						cp = "desktop29"
 					else:
 						cp = "desktopnovo"
 					link4 = common.OpenURL("http://p.netcine.us/players/"+cp+".php"+url3[1])
@@ -219,7 +221,6 @@ def PlayS(): #62
 			else:
 					m4= re.compile("http\:\/\/.+[ALTO|BAIXO].mp4[^\"]+").findall(link3)
 					m4 = list(reversed(m4))
-					ST(link3)
 					for url4 in m4:
 						listal.append(url4)
 						dubleg="[COLOR green]HD[/COLOR][/B]" if "ALTO" in url4 else "[COLOR red]SD[/COLOR][/B]"
@@ -668,11 +669,12 @@ def PlayTVRC(): # 101
 		link = common.OpenURL(url)
 		player = re.compile('<iframe name=\"Player\".+src=\"([^\"]+)\"').findall(link)
 		link2 = common.OpenURL(player[0])
-		m2 = re.compile('action="([^\"]+)').findall(link2)
-		m2[0] = re.sub('.\/', 'https://canais.ink/', m2[0])
-		link3 = common.OpenURL(m2[0])
+		m2 = re.compile('action="[^\"]+\=([^\"]+)').findall(link2)
+		#m2[0] = re.sub('.\/', 'https://canais.ink/', m2[0])
+		link3 = common.OpenURL("http://cometa.top/player3/canaisvib.php?canal="+m2[0])
 		urlp = re.compile('(http[^\"]+m3u[^\"]+)').findall(link3)
 		if urlp:
+			#ST(urlp[0])
 			PlayUrl(name, urlp[0] + "?play|Referer="+player[0], iconimage, info)
 		else:
 			xbmcgui.Dialog().ok('Cube Play', "Erro, aguarde atualização")
