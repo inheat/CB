@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import urllib, urlparse, sys, xbmcplugin ,xbmcgui, xbmcaddon, xbmc, os, json, hashlib, re, urllib2, htmlentitydefs
 
-Versao = "18.09.13"
+Versao = "18.09.15"
 
 AddonID = 'plugin.video.CubePlay'
 Addon = xbmcaddon.Addon(AddonID)
@@ -667,15 +667,20 @@ def PlayTVRC(): # 101
 	#url2 = re.sub('redecanais\.[^\/]+', "redecanais.cz", url.replace("https","http") )
 	try:
 		link = common.OpenURL(url)
-		player = re.compile('<iframe name=\"Player\".+src=\"([^\"]+)\"').findall(link)
-		link2 = common.OpenURL(player[0])
-		m2 = re.compile('action="[^\"]+\=([^\"]+)').findall(link2)
+		#player = re.compile('<iframe name=\"Player\".+src=\"([^\"]+)\"').findall(link)
+		player = re.compile('<iframe name=\"Player\".+src=\"[^\"]+\=([^\"]+)').findall(link)
+		#ST(player[0])
+		#link2 = common.OpenURL(player[0])
+		#m2 = re.compile('action="[^\"]+\=([^\"]+)').findall(link2)
 		#m2[0] = re.sub('.\/', 'https://canais.ink/', m2[0])
-		link3 = common.OpenURL("http://cometa.top/player3/canaisvib.php?canal="+m2[0])
+		link3 = common.OpenURL("http://cometa.top/player3/canaisvibfree.php?canal="+player[0])
+		#ST(link3)
+		#http://cometa.top/player3/canaisvibfree.php?canal=
 		urlp = re.compile('(http[^\"]+m3u[^\"]+)').findall(link3)
+		#ST(urlp[0])
 		if urlp:
 			#ST(urlp[0])
-			PlayUrl(name, urlp[0] + "?play|Referer="+player[0], iconimage, info)
+			PlayUrl(name, urlp[0] + "|Referer=http://cometa.top/player3/canaisvibfree.php?canal=", iconimage, info)
 		else:
 			xbmcgui.Dialog().ok('Cube Play', "Erro, aguarde atualização")
 	except:
