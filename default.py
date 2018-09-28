@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import urllib, urlparse, sys, xbmcplugin ,xbmcgui, xbmcaddon, xbmc, os, json, hashlib, re, urllib2, htmlentitydefs
 
-Versao = "18.09.15"
+Versao = "18.09.28"
 
 AddonID = 'plugin.video.CubePlay'
 Addon = xbmcaddon.Addon(AddonID)
@@ -406,7 +406,7 @@ def PlayMRC(): #95 Play filmes
 		if player:
 			player[0] = url2 = re.sub('.php', "player.php", player[0])
 			mp4 = common.OpenURL(player[0])
-			mmp4 = re.compile('http.{5,95}mp4').findall(mp4)
+			mmp4 = re.compile('http.{5,95}\.mp4').findall(mp4)
 			AddDir("[B][COLOR yellow]"+ name +" [/COLOR][/B]"  , mmp4[0] + "?play|Referer="+player[0], 3, iconimage, iconimage, index=0, isFolder=False, IsPlayable=True, info=desc, background=url+";;;"+name+";;;RC")
 		else:
 			AddDir("[B]Ocorreu um erro[/B]"  , "", 0, iconimage, iconimage, index=0, isFolder=False, IsPlayable=False, info="Erro")
@@ -425,7 +425,7 @@ def PlaySRC(): #133 Play series
 		if player:
 			player[0] = url2 = re.sub('.php', "player.php", player[0])
 			mp4 = common.OpenURL(player[0])
-			mmp4 = re.compile('http.{5,95}mp4').findall(mp4)
+			mmp4 = re.compile('http.{5,95}\.mp4').findall(mp4)
 			PlayUrl(name, mmp4[0] + "?play|Referer="+player[0], iconimage, name)
 		else:
 			xbmcgui.Dialog().ok('Cube Play', 'Erro, tente novamente em alguns minutos')
