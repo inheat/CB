@@ -199,32 +199,19 @@ def PlayS(): #62
 		listal=[]
 		for url2 in m:
 			link3 = common.OpenURL(url2)
-			m3 = re.compile("(campanha.{0,2}).php(\?[^\"]+)").findall(link3)
-			if m3:
-				for url3 in m3:
-					if url3[0] == "campanha":
-						cp = "desktop22"
-					elif url3[0] == "campanha2":
-						cp = "desktop20"
-					elif url3[0] == "campanha29":
-						cp = "desktop29"
-					else:
-						cp = "desktopnovo"
-					link4 = common.OpenURL("http://p.netcine.us/players/"+cp+".php"+url3[1])
-					link4 = re.sub('window.location.+', '', link4)
-					m4= re.compile("http.+?mp4[^\"]+").findall(link4) 
-					m4 = list(reversed(m4))
-					for url4 in m4:
-						listal.append(url4)
-						dubleg="[COLOR green]HD[/COLOR][/B]" if "ALTO" in url4 else "[COLOR red]SD[/COLOR][/B]"
-						listaf.append("[B][COLOR blue]"+listan[i] +"[/COLOR] "+dubleg)
-			else:
-					m4= re.compile("http\:\/\/.+[ALTO|BAIXO].mp4[^\"]+").findall(link3)
-					m4 = list(reversed(m4))
-					for url4 in m4:
-						listal.append(url4)
-						dubleg="[COLOR green]HD[/COLOR][/B]" if "ALTO" in url4 else "[COLOR red]SD[/COLOR][/B]"
-						listaf.append("[B][COLOR blue]"+listan[i] +"[/COLOR] "+dubleg)
+			m3 = re.compile("http[^\"]+").findall(link3)
+			for url3 in m3:
+				link4 = common.OpenURL(m3[0])
+				m4=re.compile("http.+netcine[^\"]+").findall(link4)
+				m4[1] = m4[1].replace("http://p.netcine.us/redirecionar.php?data=","")
+				link5 = common.OpenURL(m4[1])
+				link5 = re.sub('window.location.+', '', link5)
+				m5= re.compile("http.+?mp4[^\"]+").findall(link5)
+				m5 = list(reversed(m5))
+				for url4 in m5:
+					listal.append(url4)
+					dubleg="[COLOR green]HD[/COLOR][/B]" if "ALTO" in url4 else "[COLOR red]SD[/COLOR][/B]"
+					listaf.append("[B][COLOR blue]"+listan[i] +"[/COLOR] "+dubleg)
 			i+=1
 		d = xbmcgui.Dialog().select("Escolha a resolução:", listaf)
 		if d!= -1:
