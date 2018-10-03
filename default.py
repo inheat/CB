@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import urllib, urlparse, sys, xbmcplugin ,xbmcgui, xbmcaddon, xbmc, os, json, hashlib, re, urllib2, htmlentitydefs
 
-Versao = "18.09.28"
+Versao = "18.10.02"
 
 AddonID = 'plugin.video.CubePlay'
 Addon = xbmcaddon.Addon(AddonID)
@@ -273,12 +273,18 @@ def ListMoviesNC(): #78
 def PlayMNC(): #79
 	try:
 		link = common.OpenURL(url)
-		m = re.compile("http.+netcine[^\"]+").findall(link)
-		link1 = common.OpenURL(m[0])
-		m1 = re.compile("http.+netcine[^\"]+").findall(link1)
-		link2 = common.OpenURL(m1[1])
-		link2 = re.sub('window.location.+', '', link2)
-		m2 = re.compile("http.+?mp4[^\"]+").findall(link2)
+		m = re.compile("(campanha.{0,2}).php(\?[^\"]+)").findall(link)
+		if m[0][0] == "campanha":
+			cp = "desktop22"
+		elif m[0][0] == "campanha2":
+			cp = "desktop20"
+		elif m[0][0] == "campanha29":
+			cp = "desktop29"
+		else:
+			cp = "desktopnovo"
+		link1 = common.OpenURL("http://p.netcine.us/players/"+cp+".php"+m[0][1])
+		link1 = re.sub('window.location.+', '', link1)
+		m2 = re.compile("http.+?mp4[^\"]+").findall(link1)
 		if m2:
 			m2 = list(reversed(m2))
 			lista =[]
