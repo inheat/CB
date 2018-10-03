@@ -56,3 +56,4 @@
 18.08.27 - Fix netcine
 18.09.13 - Minor Fix Netcine
 18.09.28 - Fix Redecanais
+18.10.02 - fix netcine filmes
